@@ -1,0 +1,59 @@
+name: "bpe_5000"
+joeynmt_version: "2.2.0"
+
+data:
+  train: "/content/mt4_upload/data/bpe_5000/train_100k.bpe"
+  dev: "/content/mt4_upload/data/bpe_5000/dev_100k.bpe"
+  test: "/content/mt4_upload/data/bpe_5000/test_100k.bpe"
+  dataset_type: "plain"
+  src:
+    lang: "en"
+    level: "word"
+    lowercase: true
+    voc_limit: 5000
+  trg:
+    lang: "it"
+    level: "word"
+    lowercase: true
+    voc_limit: 5000
+
+model:
+  encoder:
+    type: "rnn"
+    rnn_type: "lstm"
+    embeddings:
+      embedding_dim: 256
+    hidden_size: 512
+  decoder:
+    type: "rnn"
+    rnn_type: "lstm"
+    embeddings:
+      embedding_dim: 256
+    hidden_size: 512
+
+training:
+  model_dir: "/content/drive/MyDrive/MT/joeynmt_models/bpe5k"
+  overwrite: true
+  label_smoothing: 0.1
+  normalization: "tokens"
+  learning_rate: 0.001
+  learning_rate_min: 0.00000001
+  loss: "crossentropy"
+  optimizer: "adam"
+  batch_size: 64
+  scheduling: "plateau"
+  patience: 5
+  reduce_factor: 0.5
+  early_stopping_metric: "loss"
+  eval_metric: "bleu"
+  logging_freq: 100
+  validation_freq: 500
+  epochs: 10
+  shuffle: true
+  use_cuda: true
+  early_stopping: true
+
+testing:
+  eval_metrics: ["bleu"]
+  sacrebleu_cfg:
+    tokenize: "13a"

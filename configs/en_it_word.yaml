@@ -1,0 +1,61 @@
+name: "en_it_word"
+joeynmt_version: "2.2.0"
+
+data:
+  train: "/content/mt4_upload/data/train_100k"
+  dev: "/content/mt4_upload/data/dev_100k"
+  test: "/content/mt4_upload/data/test_100k"
+  dataset_type: "plain"
+  src:
+    lang: "en"
+    level: "word"
+    lowercase: true
+    voc_limit: 2000
+  trg:
+    lang: "it"
+    level: "word"
+    lowercase: true
+    voc_limit: 2000
+
+model:
+  encoder:
+    type: "rnn"
+    rnn_type: "lstm"
+    embeddings:
+      embedding_dim: 256
+    hidden_size: 512
+  decoder:
+    type: "rnn"
+    rnn_type: "lstm"
+    embeddings:
+      embedding_dim: 256
+    hidden_size: 512
+
+training:
+  model_dir: "/content/drive/MyDrive/MT/joeynmt_models/word2k"
+  overwrite: True
+  label_smoothing: 0.1
+  normalization: "tokens"
+  learning_rate_min: 0.00000001
+  keep_best_ckpts: 3
+  loss: "crossentropy"
+  optimizer: "adam"
+  learning_rate: 0.001
+  batch_size: 64
+  scheduling: "plateau"
+  patience: 5
+  reduce_factor: 0.5
+  early_stopping_metric: "loss"
+  eval_metric: "bleu"
+  logging_freq: 100
+  validation_freq: 500
+  epochs: 10
+  shuffle: true
+  use_cuda: true
+  early_stopping: True
+
+
+testing:
+  eval_metrics: ["bleu"]
+  sacrebleu_cfg:
+    tokenize: "13a"

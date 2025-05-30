@@ -1,0 +1,4 @@
+model,vocab_type,vocab_size,bleu
+word,none,2000,21.76
+bpe,yes,2000,32.43
+bpe,yes,5000,34.93
